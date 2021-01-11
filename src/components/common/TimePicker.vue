@@ -18,19 +18,37 @@
         v-on="on"
       ></v-text-field>
     </template>
-    <v-time-picker
-      v-model="input.time"
-      format="24hr"
-      @input="onPickTime"
-    ></v-time-picker>
+    <v-tabs v-model="tab" >
+      <v-tab>Date</v-tab>
+      <v-tab>Time</v-tab>
+    </v-tabs>
+    <v-tabs-items v-model="tab" >
+      <v-tab-item>
+        <v-date-picker
+          locale="en-in"
+          v-model="input.date"
+          no-title
+          @input="onPickDate"
+        ></v-date-picker>
+      </v-tab-item>
+      <v-tab-item>
+        <v-time-picker
+          v-model="input.time"
+          format="24hr"
+          @input="onPickTime"
+        ></v-time-picker>
+      </v-tab-item>
+    </v-tabs-items>
   </v-menu>
 </template>
 <script>
 export default {
   name: 'DatePicker',
   data: () => ({
+    tab: 'Date',
     timeMenu: false,
     input: {
+      date: null,
       time: null,
     },
   }),
@@ -55,9 +73,14 @@ export default {
     },
   },
   methods: {
+    onPickDate() {
+      this.tab = 'Time';
+    },
     onPickTime() {
       this.timeMenu = false;
-      this.$emit('onPickTime', this.input.time);
+      const date = this.input.date.split('-');
+      const time = this.input.time.split(':');
+      this.$emit('onPickTime', new Date(date[0], date[1], date[2], time[0], time[1]));
     },
   },
 };

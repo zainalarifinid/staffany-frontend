@@ -88,6 +88,20 @@ export default {
       endTime: null,
     },
   }),
+  props: {
+    openDialog: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  watch: {
+    openDialog: {
+      immediate: true,
+      handler(val) {
+        this.dialog = val;
+      },
+    },
+  },
   methods: {
     onPickDate(value) {
       this.input.date = value;

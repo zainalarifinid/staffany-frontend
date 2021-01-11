@@ -18,6 +18,16 @@
           <td>{{ data.date }}</td>
           <td>{{ data.startTime }}</td>
           <td>{{ data.endTime }}</td>
+          <td>
+            <v-btn
+              elevation="2"
+              @click="onChangeData(data.id)"
+            >Edit</v-btn>
+            <v-btn
+              elevation="2"
+              @click="onRemoveData(data.id)"
+            >Delete</v-btn>
+          </td>
         </tr>
       </tbody>
     </template>
@@ -33,6 +43,14 @@ export default {
     listShift: {
       type: Array,
       default: () => ({}),
+    },
+  },
+  methods: {
+    onChangeData(idShift) {
+      this.$emit('onChangeData', idShift);
+    },
+    onRemoveData(idShift) {
+      this.$emit('onRemoveData', idShift);
     },
   },
 };
